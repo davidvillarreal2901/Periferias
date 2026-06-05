@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PERIFERIAS — Juego de Cartas sobre Ciencia, Poder y Conocimiento Colonial</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- ===== PANTALLA DE INICIO ===== -->
+<section id="setup">
+  <div class="brand">PERIFERIAS</div>
+  <div class="tagline">«La ciencia es poder. El conocimiento se disputa.»</div>
+  <div class="subtag">Ciencia · Poder · Conocimiento Colonial</div>
+
+  <div class="setup-card">
+    <h3>Preparar partida</h3>
+    <p style="color:var(--ink-soft);font-size:14px;margin-bottom:8px">Número de jugadores</p>
+    <div class="radio-row">
+      <label><input type="radio" name="numj" value="2" checked> 2 jugadores</label>
+      <label><input type="radio" name="numj" value="3"> 3 jugadores (con Bando C)</label>
+    </div>
+    <div id="bando-pickers"></div>
+    <button id="btn-start">Iniciar partida ⚔</button>
+    <p class="theory">Inspirado en Pokémon TCG, Risk y Monopoly, con fundamento en los estudios sociales de la ciencia: Basalla, Latour, MacLeod, Castro-Gómez, Harding, Pakdaman. Arrastra las cartas a las regiones; controla una región solo durante una ronda para reclamar su recompensa.</p>
+  </div>
+</section>
+
+<!-- ===== JUEGO ===== -->
+<main id="game">
+  <!-- El tablero ocupa toda la pantalla; los paneles flotan encima -->
+  <div id="board-stage"><div id="regions"></div></div>
+
+  <!-- Overlay superior: jugadores + indicador de turno -->
+  <div id="hud-top">
+    <div id="topbar"></div>
+    <div id="turn-indicator"></div>
+  </div>
+
+  <!-- Overlay lateral derecho: evento + log (colapsable) -->
+  <aside id="side" class="hud-panel">
+    <button id="side-toggle" onclick="document.getElementById('side').classList.toggle('collapsed')">≡ Registro</button>
+    <div class="side-body">
+      <div id="evento-box"></div>
+      <div id="log"></div>
+    </div>
+  </aside>
+
+  <!-- Overlay inferior: mano + banca + acciones -->
+  <div id="bottom" class="hud-panel">
+    <div class="hand-wrap">
+      <div style="flex:1">
+        <div class="zone-label">Mano · <span id="hand-count">0</span></div>
+        <div id="hand"></div>
+      </div>
+      <div style="flex:1">
+        <div class="zone-label">Banca · <span id="banca-count">0</span> / 5</div>
+        <div id="banca"></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="secondary" onclick="PERI.robar()">Robar carta</button>
+      <button onclick="PERI.comprar()">🛒 Tienda</button>
+      <button class="primary" onclick="PERI.combate()">⚔ Combate</button>
+      <button class="secondary" onclick="PERI.finTurno()">Terminar turno ▸</button>
+      <button onclick="PERI.reset()" style="font-size:12px">↺ Reiniciar</button>
+    </div>
+  </div>
+</main>
+
+<!-- ===== MODAL TIENDA ===== -->
+<div class="modal" id="shop">
+  <div class="modal-inner">
+    <button class="modal-close" onclick="closeShop()">×</button>
+    <h2 style="font-size:28px">Cartas de Entrenador</h2>
+    <p style="color:var(--ink-soft);font-style:italic">Se compran con fichas de PC (🟡 Datos · 🟢 Saber Local · 🔴 Poder Político). Puedes comprar de cualquier bando si te alcanza.</p>
+    <div id="shop-list"></div>
+  </div>
+</div>
+
+<!-- ===== MODAL DETALLE ===== -->
+<div class="modal" id="detail">
+  <div class="modal-inner">
+    <button class="modal-close" onclick="closeDetail()">×</button>
+    <img id="detail-img" src="" alt="">
+    <div id="detail-body"></div>
+  </div>
+</div>
+
+<!-- ===== VICTORIA ===== -->
+<div id="win-overlay">
+  <div id="win-text"></div>
+</div>
+<script>
+  // botón reinicio en pantalla de victoria
+  document.getElementById('win-overlay').addEventListener('click', e=>{ if(e.target.id==='win-overlay') location.reload(); });
+</script>
+<script src="js/cards.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/effects.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
